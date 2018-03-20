@@ -112,6 +112,8 @@ function rtmedia_autoloader( $class_name ) {
  */
 spl_autoload_register( 'rtmedia_autoloader' );
 
+include RTMEDIA_PATH . "templates/media/media-with-message.php";
+
 /**
  * Instantiate the BuddyPressMedia class.
  */
