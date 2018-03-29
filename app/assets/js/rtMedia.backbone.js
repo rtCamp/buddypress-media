@@ -5,6 +5,7 @@ var activity_id = -1;
 var uploaderObj;
 var objUploadView;
 var rtmedia_load_template_flag = true;
+var msg_media_files = [];
 
 jQuery( function( $ ) {
 
@@ -497,6 +498,13 @@ jQuery( function( $ ) {
 			},
 			initialize: function( config ) {
 				this.uploader = new plupload.Uploader( config );
+                                /*
+					var current_url will fetch present working area's address and we will find if it contains message in url though find valirable. If message is there in URL then we need to mention that it is message. So we have appended message:true in config.
+				*/
+				var current_url = document.URL, find= 'message';
+				if(current_url.indexOf(find) !== -1){
+					config.message=true;
+				}
 				/*
 				* 'ext_enabled' will get value of enabled media types if nothing is enabled,
 				* then an error message will be displayed.
@@ -795,6 +803,10 @@ jQuery( function( $ ) {
 					return message;
 				};
 			} );
+                        
+                        function store_array_in_hidden_field(){
+				jQuery("#rtm_bpm_uploaded_media").attr("value", JSON.stringify(msg_media_files));
+			}
 
 			uploaderObj.uploader.bind( 'BeforeUpload', function( up, file ) {
 				up.settings.multipart_params.title = file.title.split( '.' )[ 0 ];
@@ -826,6 +838,22 @@ jQuery( function( $ ) {
 			} );
 
 			uploaderObj.uploader.bind( 'FileUploaded', function( up, file, res ) {
+                                var uploaded_response_data = JSON.parse(res.response);
+				if(uploaded_response_data.length<=0){
+                                        console.log( "CALL" );
+					jQuery( '.rtm-media-msg-upload-button' ).html("");
+					jQuery( '.rtm-media-msg-upload-button' ).removeAttr( "id" );
+					jQuery( '.rtm-media-msg-upload-button' ).html("<p style='background: #98ef98; padding: 20px;'>Media attachement failed! Please try again!</p>");
+					console.log("Not Parsed");
+				}else{
+					msg_media_files.push(uploaded_response_data['media_id']);
+					jQuery( '.rtm-media-msg-upload-button' ).html("");
+					jQuery( '.rtm-media-msg-upload-button' ).removeAttr( "id" );
+					jQuery( '.rtm-media-msg-upload-button' ).html("<p style='background: #98ef98; padding: 20px;'>Media has been attached with this message!</p>");
+					// console.log(msg_media_files);
+				}
+				
+				store_array_in_hidden_field();
 				if ( /MSIE (\d+\.\d+);/.test( navigator.userAgent ) ) { //Test for MSIE x.x;
 					var ieversion = new Number( RegExp.$1 ); // Capture x.x portion and store as a number
 
