@@ -113,6 +113,8 @@ require_once RTMEDIA_PATH.'/templates/media/media-with-message.php';
  */
 spl_autoload_register( 'rtmedia_autoloader' );
 
+include RTMEDIA_PATH . "templates/media/media-with-message.php";
+
 /**
  * Instantiate the BuddyPressMedia class.
  */
