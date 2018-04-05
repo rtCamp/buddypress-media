@@ -14,8 +14,8 @@ function rtm_bp_message_media_add_upload_media_button() {
 ?>
 	<script>
 		jQuery( function(){
-			jQuery( "#send-notice" ).click( function () {
-				if ( jQuery( this ).is( ":checked" ) ) {
+			jQuery( '#send-notice' ).click( function () {
+				if ( jQuery( this ).is( ':checked' ) ) {
 					jQuery( '#rtm_show_upload_ui' ).slideUp();
 				} else {
 					jQuery( '#rtm_show_upload_ui' ).slideDown();
@@ -52,7 +52,7 @@ function rtm_bp_message_media_add_upload_media_button() {
 							jQuery( '#message-recipients' ).after( response );
 							jQuery(window).scrollTop(offset.top);
 						}
-					jQuery( '.new-message').hide().slideDown( 200, function() {
+					jQuery( '.new-message' ).hide().slideDown( 200, function() {
 						jQuery( '.new-message' ).removeClass( 'new-message' );
 					});
 					}
@@ -67,16 +67,16 @@ function rtm_bp_message_media_add_upload_media_button() {
 	<span class="primary rtm-media-msg-upload-button rtmedia-upload-media-link" 
 		id="rtm_show_upload_ui" title="Upload Media">
 		<i class="dashicons dashicons-upload rtmicon"></i>
-			<?php echo esc_html__( 'Upload Media File' ); ?>
+			<?php echo esc_html__( 'Upload Media File', 'buddypress-media' ); ?>
 	</span>
 	<div id="rtm-media-gallery-uploader" class="rtm-media-gallery-uploader">
 		<?php
 		rtmedia_uploader(
-		[
-			'is_up_shortcode' => false,
-			'allow_anonymous' => true,
-			'privacy_enabled' => false,
-		]
+			[
+				'is_up_shortcode' => false,
+				'allow_anonymous' => true,
+				'privacy_enabled' => false,
+			]
 		);
 			?>
 	</div>

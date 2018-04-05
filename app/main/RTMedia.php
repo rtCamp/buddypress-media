@@ -1090,7 +1090,7 @@ class RTMedia {
 		$rtmedia_backbone_strings = array(
 			'rtm_edit_file_name' => esc_html__( 'Edit File Name', 'buddypress-media' ),
 			'rtm_bp_msg_media_success' => esc_html__( 'Media has been attached with this message!', 'buddypress-media' ),
-			'rtm_bp_msg_media_failure' => esc_html__( 'Media attachement failed! Please try again!', 'buddypress-media' ),
+			'rtm_bp_msg_media_failure' => esc_html__( 'Media attachement failed! Please try again!', 'buddypress-media' )
 		);
 
 		wp_localize_script( 'rtmedia-backbone', 'rtmedia_backbone_strings', $rtmedia_backbone_strings );

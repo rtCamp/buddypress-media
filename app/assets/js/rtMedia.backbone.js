@@ -499,7 +499,7 @@ jQuery( function( $ ) {
 				this.uploader = new plupload.Uploader( config );
 				
 				//current_url will fetch present URL
-				var current_url = document.URL, find= 'message';
+				var current_url = document.URL, find = 'message';
 				if( -1 !== current_url.indexOf( find ) ){
                                     // Specifying that it is a message
                                     config.message = true;
@@ -842,9 +842,9 @@ jQuery( function( $ ) {
 					rtMediaHook.call( 'rtmedia_js_before_file_upload', [up, file] );
 			} );
 
-				uploaderObj.uploader.bind( 'FileUploaded', function( up, file, res ) {
-                var uploaded_response_data = JSON.parse( res.response );
-				if ( uploaded_response_data.length <= 0 ) {
+                                uploaderObj.uploader.bind( 'FileUploaded', function( up, file, res ) {
+                                    var uploaded_response_data = JSON.parse( res.response );
+                                    if ( uploaded_response_data.length <= 0 ) {
 					jQuery( '.rtm-media-msg-upload-button' ).html( '' );
 					jQuery( '.rtm-media-msg-upload-button' ).removeAttr( 'id' );
 					jQuery( '.rtm-media-msg-upload-button' ).html( 
