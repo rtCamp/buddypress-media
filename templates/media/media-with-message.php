@@ -29,10 +29,10 @@ function rtm_bp_message_media_add_upload_media_button() {
 				var button = jQuery( 'input#send_reply_button' );
 				jQuery(button).addClass( 'loading' );
 				jQuery.post( ajaxurl, {
-					action: 'messages_send_reply',
-					'cookie'				: bp_get_cookies(),
-					'_wpnonce'				: jQuery( 'input#send_message_nonce' ).val(),
-					'content'				: jQuery( '#message_content' ).val(),
+					action                  : 'messages_send_reply',
+					'cookie'                : bp_get_cookies(),
+					'_wpnonce'              : jQuery( 'input#send_message_nonce' ).val(),
+					'content'               : jQuery( '#message_content' ).val(),
 					'send_to'				: jQuery( 'input#send_to' ).val(),
 					'subject'				: jQuery( 'input#subject' ).val(),
 					'thread_id'				: jQuery( 'input#thread_id' ).val(),
@@ -60,7 +60,7 @@ function rtm_bp_message_media_add_upload_media_button() {
 				});
 				return false;
 			};
-			$( 'input#send_reply_button' ).unbind( 'click' ).bind('click', handler);
+			$( 'input#send_reply_button' ).unbind( 'click' ).bind( 'click', handler );
 		});
 
 	</script>
@@ -72,11 +72,11 @@ function rtm_bp_message_media_add_upload_media_button() {
 	<div id="rtm-media-gallery-uploader" class="rtm-media-gallery-uploader">
 		<?php
 		rtmedia_uploader(
-			[
-				'is_up_shortcode' => false,
-				'allow_anonymous' => true,
-				'privacy_enabled' => false,
-			]
+		[
+			'is_up_shortcode' => false,
+			'allow_anonymous' => true,
+			'privacy_enabled' => false,
+		]
 		);
 			?>
 	</div>
@@ -110,7 +110,11 @@ function rtm_add_message_media_params( $message ) {
 		jQuery( '#msg-success-bp-msg-media' ).hide();
 		jQuery( '.rtm-media-msg-upload-button' ).attr( 'id', 'rtm_show_upload_ui' );
 		jQuery( '.rtm-media-msg-upload-button' ).html( '' );
-		jQuery( '.rtm-media-msg-upload-button' ).html( jQuery( '<i>', { class: 'dashicons dashicons-upload rtmicon' }{ text: 'Upload Media File' } ) );
+		jQuery( '.rtm-media-msg-upload-button' ).html( 
+			jQuery( '<i>',
+				{ class: 'dashicons dashicons-upload rtmicon' }
+			) );
+		jQuery( '#rtm_show_upload_ui' ).append( 'Upload Media File' );
 	</script>
 	<?php
 }
@@ -131,10 +135,10 @@ function show_rtm_bp_msg_media() {
 		$media_url = $url[0] . '/media/' . $media_result_array_value->media_id . '/';
 		?>
 
-			<li class='rtmedia-list-item' style='display:inline; float: left;'' id="<?php echo $media_result_array_value->media_id; // @codingStandardsIgnoreLine?>">
-				<a href="<?php echo esc_attr( $media_url ); ?>" class="<?php echo esc_attr( apply_filters( 'rtmedia_gallery_list_item_a_class', 'rtmedia-list-item-a' ) ); ?>">
+			<li class='rtmedia-list-item rtmedia_bp_msg_media_upload_render' id="<?php echo $media_result_array_value->media_id; // @codingStandardsIgnoreLine?>">
+				<a href="<?php echo esc_url( $media_url ); ?>" class="<?php echo esc_attr( apply_filters( 'rtmedia_gallery_list_item_a_class', 'rtmedia-list-item-a' ) ); ?>">
 					<div class="rtmedia-item-thumbnail">
-						<img src="<?php echo esc_attr( $media ); ?>" alt="<?php echo esc_attr( apply_filters( 'rtmc_change_alt_text', $alt_text, $rtmedia_media ) ); ?>">
+						<img src="<?php echo esc_url( $media ); ?>" alt="<?php echo esc_attr( apply_filters( 'rtmc_change_alt_text', $alt_text, $rtmedia_media ) ); ?>">
 					</div>
 				</a>
 			</li>

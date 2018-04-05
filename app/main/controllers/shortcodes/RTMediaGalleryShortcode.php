@@ -70,8 +70,8 @@ class RTMediaGalleryShortcode {
 
 		/**
 		* @param array $url_array
-        * @param mixed $url
-        * Redirects to 'upload.php' when we are composing message and uplaod media with BP message
+		* @param mixed $url
+		* Redirects to 'upload.php' when we are composing message and uplaod media with BP message
         */
 
 		if ( false !== strpos( $url, '/messages' ) ) {

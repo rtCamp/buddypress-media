@@ -107,13 +107,11 @@ function rtmedia_autoloader( $class_name ) {
 	}
 }
 
-require_once RTMEDIA_PATH.'/templates/media/media-with-message.php';
+require_once RTMEDIA_PATH . '/templates/media/media-with-message.php';
 /**
  * Register the autoloader function into spl_autoload
  */
 spl_autoload_register( 'rtmedia_autoloader' );
-
-include RTMEDIA_PATH . "templates/media/media-with-message.php";
 
 /**
  * Instantiate the BuddyPressMedia class.
