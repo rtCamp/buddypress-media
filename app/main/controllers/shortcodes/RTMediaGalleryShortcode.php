@@ -68,15 +68,15 @@ class RTMediaGalleryShortcode {
 		$request_uri = rtm_get_server_var( 'REQUEST_URI', 'FILTER_SANITIZE_URL' );
 		$url         = rtmedia_get_upload_url( $request_uri );
 
-		/**
-		* @param array $url_array
-		* @param mixed $url
-		* Redirects to 'upload.php' when we are composing message and uplaod media with BP message
-        */
-
+		// Redirects to 'upload.php' when we are composing message and uplaod media with BP message
 		if ( false !== strpos( $url, '/messages' ) ) {
+
+			// Exploding URL of current page to redirect
 			$url_array = explode( '/messages', $url );
+
+			//Redirecting to upload.php page
 			$url       = trailingslashit( $url_array[0] ) . 'upload/';
+			
 		}
      
 		$params = array(

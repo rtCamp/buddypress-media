@@ -497,14 +497,12 @@ jQuery( function( $ ) {
 			},
 			initialize: function( config ) {
 				this.uploader = new plupload.Uploader( config );
-				/** 
-				* var current_url will fetch present working area's address and we will find if it contains message in url though find variable.
-				* If message is there in URL then we need to mention that it is message.
-				* we have appended message:true in config.
-				*/
+				
+				//current_url will fetch present URL
 				var current_url = document.URL, find= 'message';
 				if( -1 !== current_url.indexOf( find ) ){
-					config.message=true;
+                                    // Specifying that it is a message
+                                    config.message = true;
 				}
 				/**
 				* 'ext_enabled' will get value of enabled media types if nothing is enabled,
@@ -573,7 +571,7 @@ jQuery( function( $ ) {
                                         jQuery( '<p>', { id: 'rtm_bpm_success' } )
                                     );
                                     jQuery( '#rtm_bpm_success' ).css( {'background': '#98ef98', 'padding': '20px' } );
-                                    jQuery( '#rtm_bpm_success' ).append( 'Media has been attached with this message!' );
+                                    jQuery( '#rtm_bpm_success' ).append( rtmedia_backbone_strings.rtm_bp_msg_media_success );
 				}
 				activity_id = -1;
 				var hook_respo = rtMediaHook.call( 'rtmedia_js_after_files_uploaded' );
@@ -814,7 +812,7 @@ jQuery( function( $ ) {
 					return message;
 				};
 			} );
-				
+
 			uploaderObj.uploader.bind( 'BeforeUpload', function( up, file ) {
 				up.settings.multipart_params.title = file.title.split( '.' )[ 0 ];
 
@@ -846,7 +844,7 @@ jQuery( function( $ ) {
 
 				uploaderObj.uploader.bind( 'FileUploaded', function( up, file, res ) {
                 var uploaded_response_data = JSON.parse( res.response );
-				if( uploaded_response_data.length<=0 ){
+				if ( uploaded_response_data.length <= 0 ) {
 					jQuery( '.rtm-media-msg-upload-button' ).html( '' );
 					jQuery( '.rtm-media-msg-upload-button' ).removeAttr( 'id' );
 					jQuery( '.rtm-media-msg-upload-button' ).html( 
@@ -856,7 +854,7 @@ jQuery( function( $ ) {
 						{ 'background: #db001e':'#db001e', 'padding':'20px' }
 					);
 					jQuery( '#rtm_bpm_success' ).append( 
-						'Media attachement failed! Please try again!' 
+						rtmedia_backbone_strings.rtm_bp_msg_media_failure 
 					);
 				}else{
 					jQuery( '#rtm_bpm_uploaded_media' ).val(

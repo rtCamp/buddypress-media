@@ -33,9 +33,9 @@ function rtm_bp_message_media_add_upload_media_button() {
 					'cookie'                : bp_get_cookies(),
 					'_wpnonce'              : jQuery( 'input#send_message_nonce' ).val(),
 					'content'               : jQuery( '#message_content' ).val(),
-					'send_to'				: jQuery( 'input#send_to' ).val(),
-					'subject'				: jQuery( 'input#subject' ).val(),
-					'thread_id'				: jQuery( 'input#thread_id' ).val(),
+					'send_to'               : jQuery( 'input#send_to' ).val(),
+					'subject'               : jQuery( 'input#subject' ).val(),
+					'thread_id'             : jQuery( 'input#thread_id' ).val(),
 					'rtm_bpm_uploaded_media': jQuery( 'input#rtm_bpm_uploaded_media' ).val()
 				},
 				function( response )
@@ -67,7 +67,7 @@ function rtm_bp_message_media_add_upload_media_button() {
 	<span class="primary rtm-media-msg-upload-button rtmedia-upload-media-link" 
 		id="rtm_show_upload_ui" title="Upload Media">
 		<i class="dashicons dashicons-upload rtmicon"></i>
-			Upload Media File
+			<?php echo esc_html__( 'Upload Media File' ); ?>
 	</span>
 	<div id="rtm-media-gallery-uploader" class="rtm-media-gallery-uploader">
 		<?php
