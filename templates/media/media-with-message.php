@@ -50,7 +50,7 @@ function rtm_bp_message_media_add_upload_media_button() {
 							jQuery( 'form#send-reply' ).before( response );
 						} else {
 							jQuery( '#message-recipients' ).after( response );
-							jQuery(window).scrollTop(offset.top);
+							jQuery(window).scrollTop( offset.top );
 						}
 					jQuery( '.new-message' ).hide().slideDown( 200, function() {
 						jQuery( '.new-message' ).removeClass( 'new-message' );
@@ -99,9 +99,9 @@ function rtm_add_message_media_params( $message ) {
 			$insert_media_object->insert(
 				[
 					'media_id'   => $media_id,
-					// Adding meta data into custom meta table
+					// Adding meta data into custom meta table.
 					'meta_key'   => 'rtm-bp-message-media', // phpcs:ignore
-					// Adding meta data into custom meta table
+					// Adding meta data into custom meta table.
 					'meta_value' => $message->id, // phpcs:ignore
 				]
 			);
