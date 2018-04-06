@@ -13,7 +13,7 @@
 function rtm_bp_message_media_add_upload_media_button() {
 ?>
 	<script>
-		jQuery( function(){
+		jQuery( function() {
 			jQuery( '#send-notice' ).click( function () {
 				if ( jQuery( this ).is( ':checked' ) ) {
 					jQuery( '#rtm_show_upload_ui' ).slideUp();
@@ -123,11 +123,12 @@ function rtm_add_message_media_params( $message ) {
 
 /**
  * As a result show attached media with message.
- * @param object $get_data_object Object for having DB actions.
- * @param array $media_result Getting media_ids attached with messages.
- * @param array $url Partitions of current URL to redirect to perticular media.
- * @param mixed $rtm_gallary_list_filter Filter for Media gallary listing.
- * @param mixed $rtm_change_alt_text_filter Filter for changing alter text of an image.
+ *
+ * @var object $get_data_object            Object for having DB actions.
+ * @var array  $media_result               Getting media_ids attached with messages.
+ * @var array  $url                        Partitions of current URL to redirect to perticular media.
+ * @var mixed  $rtm_gallary_list_filter    Filter for Media gallary listing.
+ * @var mixed  $rtm_change_alt_text_filter Filter for changing alter text of an image.
  **/
 function show_rtm_bp_msg_media() {
 	$get_data_object            = new RTDBModel( 'rtm_media_meta' );
@@ -145,7 +146,7 @@ function show_rtm_bp_msg_media() {
 		$media_url = $url[0] . '/media/' . $media_result_array_value->media_id . '/';
 		?>
 
-			<li class='rtmedia-list-item rtmedia_bp_msg_media_upload_render' id="<?php echo esc_attr( $media_result_array_value->media_id );?>">
+			<li class='rtmedia-list-item rtmedia_bp_msg_media_upload_render' id="<?php echo esc_attr( $media_result_array_value->media_id ); ?>">
 				<a href="<?php echo esc_url( $media_url ); ?>" class="<?php echo esc_attr( $rtm_gallary_list_filter ); ?>">
 					<div class="rtmedia-item-thumbnail">
 						<img src="<?php echo esc_url( $media ); ?>" alt="<?php echo esc_attr( $rtm_change_alt_text_filter ); ?>">
