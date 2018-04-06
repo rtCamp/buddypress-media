@@ -500,7 +500,7 @@ jQuery( function( $ ) {
 				
 				//current_url will fetch present URL
 				var current_url = document.URL;
-				if ( -1 !== current_url.indexOf( 'message' ) ){
+				if ( -1 !== current_url.indexOf( 'message' ) ) {
                                     // Specifying that it is a message
                                     config.message = true;
 				}
