@@ -499,8 +499,8 @@ jQuery( function( $ ) {
 				this.uploader = new plupload.Uploader( config );
 				
 				//current_url will fetch present URL
-				var current_url = document.URL, find = 'message';
-				if( -1 !== current_url.indexOf( find ) ){
+				var current_url = document.URL;
+				if( -1 !== current_url.indexOf( 'message' ) ){
                                     // Specifying that it is a message
                                     config.message = true;
 				}
@@ -567,7 +567,7 @@ jQuery( function( $ ) {
 				if ( jQuery( '.rtm-media-msg-upload-button' ).length == 1 ) {
                                     jQuery( '.rtm-media-msg-upload-button' ).html( '' );
                                     jQuery( '.rtm-media-msg-upload-button' ).removeAttr( 'id' );
-                                    jQuery( '.rtm-media-msg-upload-button' ).html( 
+                                    jQuery( '.rtm-media-msg-upload-button' ).append( 
                                         jQuery( '<p>', { id: 'rtm_bpm_success' } )
                                     );
                                     jQuery( '#rtm_bpm_success' ).css( {'background': '#98ef98', 'padding': '20px' } );
@@ -847,7 +847,7 @@ jQuery( function( $ ) {
                                     if ( uploaded_response_data.length <= 0 ) {
 					jQuery( '.rtm-media-msg-upload-button' ).html( '' );
 					jQuery( '.rtm-media-msg-upload-button' ).removeAttr( 'id' );
-					jQuery( '.rtm-media-msg-upload-button' ).html( 
+					jQuery( '.rtm-media-msg-upload-button' ).append( 
 						jQuery( '<p>', { id: 'rtm_bpm_success' } )
 					);
 					jQuery( '#rtm_bpm_success' ).css(

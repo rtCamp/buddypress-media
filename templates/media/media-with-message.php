@@ -2,7 +2,7 @@
 /**
  * Functionalities provided in this page will allow users to send media with BuddyPress message.
  *
- * @author malav vasita malav.vasita@rtcamp.com
+ * @author Malav Vasita malav.vasita@rtcamp.com
  *
  * @package rtMedia
  **/
@@ -92,7 +92,7 @@ function rtm_bp_message_media_add_upload_media_button() {
  **/
 function rtm_add_message_media_params( $message ) {
 	$insert_media_object  = new RTDBModel( 'rtm_media_meta' );
-	$message->media_array = filter_input( INPUT_POST, 'rtm_bpm_uploaded_media' );
+	$message->media_array = sanitize_text_field( filter_input( INPUT_POST, 'rtm_bpm_uploaded_media' ) );
 	$media                = explode( ',', $message->media_array );
 	if ( ! empty( $media ) && null !== $media ) {
 		foreach ( $media as $media_id ) {
@@ -123,11 +123,19 @@ function rtm_add_message_media_params( $message ) {
 
 /**
  * As a result show attached media with message.
+ * @param object $get_data_object Object for having DB actions.
+ * @param array $media_result Getting media_ids attached with messages.
+ * @param array $url Partitions of current URL to redirect to perticular media.
+ * @param mixed $rtm_gallary_list_filter Filter for Media gallary listing.
+ * @param mixed $rtm_change_alt_text_filter Filter for changing alter text of an image.
  **/
 function show_rtm_bp_msg_media() {
-	$get_data_object = new RTDBModel( 'rtm_media_meta' );
-	$media_result    = $get_data_object->get( [ 'meta_value' => bp_get_the_thread_message_id() ] );  // phpcs:ignore
-	$url             = explode( 'messages/', sanitize_text_field( wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) ) );
+	$get_data_object            = new RTDBModel( 'rtm_media_meta' );
+	$media_result               = $get_data_object->get( [ 'meta_value' => bp_get_the_thread_message_id() ] );  // phpcs:ignore
+	$url                        = explode( 'messages/', sanitize_text_field( wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) ) );
+	$rtm_gallary_list_filter    = apply_filters( 'rtmedia_gallery_list_item_a_class', 'rtmedia-list-item-a' );
+	$rtm_change_alt_text_filter = apply_filters( 'rtmc_change_alt_text', $alt_text, $rtmedia_media );
+
 	if ( '0' !== $media_result[0]->media_id ) {
 	?>
 	<ul class='rtmedia-list-media rtm-gallery-list clearfix' style = 'margin-top: 10px;'>
@@ -137,10 +145,10 @@ function show_rtm_bp_msg_media() {
 		$media_url = $url[0] . '/media/' . $media_result_array_value->media_id . '/';
 		?>
 
-			<li class='rtmedia-list-item rtmedia_bp_msg_media_upload_render' id="<?php echo $media_result_array_value->media_id; // @codingStandardsIgnoreLine?>">
-				<a href="<?php echo esc_url( $media_url ); ?>" class="<?php echo esc_attr( apply_filters( 'rtmedia_gallery_list_item_a_class', 'rtmedia-list-item-a' ) ); ?>">
+			<li class='rtmedia-list-item rtmedia_bp_msg_media_upload_render' id="<?php echo esc_attr( $media_result_array_value->media_id );?>">
+				<a href="<?php echo esc_url( $media_url ); ?>" class="<?php echo esc_attr( $rtm_gallary_list_filter ); ?>">
 					<div class="rtmedia-item-thumbnail">
-						<img src="<?php echo esc_url( $media ); ?>" alt="<?php echo esc_attr( apply_filters( 'rtmc_change_alt_text', $alt_text, $rtmedia_media ) ); ?>">
+						<img src="<?php echo esc_url( $media ); ?>" alt="<?php echo esc_attr( $rtm_change_alt_text_filter ); ?>">
 					</div>
 				</a>
 			</li>
@@ -153,9 +161,12 @@ function show_rtm_bp_msg_media() {
 
 // Adding rtMedia uploader in BuddyPress compose message form.
 add_action( 'bp_after_messages_compose_content', 'rtm_bp_message_media_add_upload_media_button' );
+
 // Adding rtMedia uploader in BuddyPress Send Reply form.
 add_action( 'bp_after_message_reply_box', 'rtm_bp_message_media_add_upload_media_button' );
+
 // Handling BuddyPress send message action by adding MEDIA ID.
 add_action( 'messages_message_sent', 'rtm_add_message_media_params' );
+
 // Showing media below BuddyPress message.
 add_action( 'bp_after_message_content', 'show_rtm_bp_msg_media' );
