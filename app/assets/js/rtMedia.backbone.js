@@ -842,27 +842,27 @@ jQuery( function( $ ) {
 					rtMediaHook.call( 'rtmedia_js_before_file_upload', [up, file] );
 			} );
 
-                                uploaderObj.uploader.bind( 'FileUploaded', function( up, file, res ) {
-                                    var uploaded_response_data = JSON.parse( res.response );
-                                    if ( uploaded_response_data.length <= 0 ) {
-					jQuery( '.rtm-media-msg-upload-button' ).html( '' );
-					jQuery( '.rtm-media-msg-upload-button' ).removeAttr( 'id' );
-					jQuery( '.rtm-media-msg-upload-button' ).append( 
-						jQuery( '<p>', { id: 'rtm_bpm_success' } )
-					);
-					jQuery( '#rtm_bpm_success' ).css(
-						{ 'background: #db001e':'#db001e', 'padding':'20px' }
-					);
-					jQuery( '#rtm_bpm_success' ).append( 
-						rtmedia_backbone_strings.rtm_bp_msg_media_failure 
-					);
-                                    } else {
-                                    	jQuery( '#rtm_bpm_uploaded_media' ).val(
-                                    		jQuery( '#rtm_bpm_uploaded_media' ).val() ?
-						jQuery( '#rtm_bpm_uploaded_media' ).val() + ',' + uploaded_response_data[ 'media_id' ] :
-						uploaded_response_data[ 'media_id' ]
-					);
-                                    }
+                        uploaderObj.uploader.bind( 'FileUploaded', function( up, file, res ) {
+                            var uploaded_response_data = JSON.parse( res.response );
+                            if ( uploaded_response_data.length <= 0 ) {
+                                jQuery( '.rtm-media-msg-upload-button' ).html( '' );
+                                jQuery( '.rtm-media-msg-upload-button' ).removeAttr( 'id' );
+                                jQuery( '.rtm-media-msg-upload-button' ).append( 
+                                    jQuery( '<p>', { id: 'rtm_bpm_success' } )
+                                );
+                                jQuery( '#rtm_bpm_success' ).css(
+                                    { 'background: #db001e':'#db001e', 'padding':'20px' }
+                                );
+                                jQuery( '#rtm_bpm_success' ).append( 
+                                    rtmedia_backbone_strings.rtm_bp_msg_media_failure 
+                                );
+                                } else {
+                                    jQuery( '#rtm_bpm_uploaded_media' ).val(
+                                        jQuery( '#rtm_bpm_uploaded_media' ).val() ?
+                                        jQuery( '#rtm_bpm_uploaded_media' ).val() + ',' + uploaded_response_data[ 'media_id' ] :
+                                        uploaded_response_data[ 'media_id' ]
+                                    );
+                                }
 				
 				if ( /MSIE (\d+\.\d+);/.test( navigator.userAgent ) ) { //Test for MSIE x.x;
 					var ieversion = new Number( RegExp.$1 ); // Capture x.x portion and store as a number
