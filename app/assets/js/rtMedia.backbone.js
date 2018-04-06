@@ -500,7 +500,7 @@ jQuery( function( $ ) {
 				
 				//current_url will fetch present URL
 				var current_url = document.URL;
-				if( -1 !== current_url.indexOf( 'message' ) ){
+				if ( -1 !== current_url.indexOf( 'message' ) ){
                                     // Specifying that it is a message
                                     config.message = true;
 				}
@@ -856,13 +856,13 @@ jQuery( function( $ ) {
 					jQuery( '#rtm_bpm_success' ).append( 
 						rtmedia_backbone_strings.rtm_bp_msg_media_failure 
 					);
-				}else{
-					jQuery( '#rtm_bpm_uploaded_media' ).val(
-						jQuery( '#rtm_bpm_uploaded_media' ).val() ?
+                                    } else {
+                                    	jQuery( '#rtm_bpm_uploaded_media' ).val(
+                                    		jQuery( '#rtm_bpm_uploaded_media' ).val() ?
 						jQuery( '#rtm_bpm_uploaded_media' ).val() + ',' + uploaded_response_data[ 'media_id' ] :
 						uploaded_response_data[ 'media_id' ]
 					);
-				}
+                                    }
 				
 				if ( /MSIE (\d+\.\d+);/.test( navigator.userAgent ) ) { //Test for MSIE x.x;
 					var ieversion = new Number( RegExp.$1 ); // Capture x.x portion and store as a number

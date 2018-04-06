@@ -2,7 +2,7 @@
 /**
  * Functionalities provided in this page will allow users to send media with BuddyPress message.
  *
- * @author Malav Vasita malav.vasita@rtcamp.com
+ * @author Malav Vasita <malav.vasita@rtcamp.com>
  *
  * @package rtMedia
  **/
@@ -72,11 +72,11 @@ function rtm_bp_message_media_add_upload_media_button() {
 	<div id="rtm-media-gallery-uploader" class="rtm-media-gallery-uploader">
 		<?php
 		rtmedia_uploader(
-			[
+			array(
 				'is_up_shortcode' => false,
 				'allow_anonymous' => true,
 				'privacy_enabled' => false,
-			]
+			)
 		);
 			?>
 	</div>
@@ -97,13 +97,13 @@ function rtm_add_message_media_params( $message ) {
 	if ( ! empty( $media ) && null !== $media ) {
 		foreach ( $media as $media_id ) {
 			$insert_media_object->insert(
-				[
+				array(
 					'media_id'   => $media_id,
 					// Adding meta data into custom meta table.
 					'meta_key'   => 'rtm-bp-message-media', // phpcs:ignore
 					// Adding meta data into custom meta table.
 					'meta_value' => $message->id, // phpcs:ignore
-				]
+				)
 			);
 		}
 	}
@@ -112,7 +112,7 @@ function rtm_add_message_media_params( $message ) {
 		jQuery( '#msg-success-bp-msg-media' ).hide();
 		jQuery( '.rtm-media-msg-upload-button' ).attr( 'id', 'rtm_show_upload_ui' );
 		jQuery( '.rtm-media-msg-upload-button' ).html( '' );
-		jQuery( '.rtm-media-msg-upload-button' ).html( 
+		jQuery( '.rtm-media-msg-upload-button' ).append( 
 			jQuery( '<i>',
 				{ class: 'dashicons dashicons-upload rtmicon' }
 			) );
@@ -131,10 +131,14 @@ function rtm_add_message_media_params( $message ) {
  * @var mixed  $rtm_change_alt_text_filter Filter for changing alter text of an image.
  **/
 function show_rtm_bp_msg_media() {
-	$get_data_object            = new RTDBModel( 'rtm_media_meta' );
-	$media_result               = $get_data_object->get( [ 'meta_value' => bp_get_the_thread_message_id() ] );  // phpcs:ignore
-	$url                        = explode( 'messages/', sanitize_text_field( wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) ) );
-	$rtm_gallary_list_filter    = apply_filters( 'rtmedia_gallery_list_item_a_class', 'rtmedia-list-item-a' );
+	$get_data_object = new RTDBModel( 'rtm_media_meta' );
+	$media_result    = $get_data_object->get( [ 'meta_value' => bp_get_the_thread_message_id() ] );  // phpcs:ignore
+	$url             = explode( 'messages/', sanitize_text_field( wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) ) );
+
+	// Add filter to add no-popup rtmedia-list-item-a in a tag.
+	$rtm_gallary_list_filter = apply_filters( 'rtmedia_gallery_list_item_a_class', 'rtmedia-list-item-a' );
+
+	// Add filter to change alter text of media.
 	$rtm_change_alt_text_filter = apply_filters( 'rtmc_change_alt_text', $alt_text, $rtmedia_media );
 
 	if ( '0' !== $media_result[0]->media_id ) {
