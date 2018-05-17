@@ -497,7 +497,14 @@ jQuery( function( $ ) {
 			},
 			initialize: function( config ) {
 				this.uploader = new plupload.Uploader( config );
-				/*
+				
+				//current_url will fetch present URL
+				var current_url = document.URL;
+				if ( -1 !== current_url.indexOf( 'message' ) ) {
+                                    // Specifying that it is a message
+                                    config.message = true;
+				}
+				/**
 				* 'ext_enabled' will get value of enabled media types if nothing is enabled,
 				* then an error message will be displayed.
 				*/
@@ -556,6 +563,16 @@ jQuery( function( $ ) {
 			uploaderObj.initUploader();
 
 			uploaderObj.uploader.bind( 'UploadComplete', function( up, files ) {
+				// Success message for BudyyPress Media Message
+				if ( jQuery( '.rtm-media-msg-upload-button' ).length == 1 ) {
+                                    jQuery( '.rtm-media-msg-upload-button' ).html( '' );
+                                    jQuery( '.rtm-media-msg-upload-button' ).removeAttr( 'id' );
+                                    jQuery( '.rtm-media-msg-upload-button' ).append( 
+                                        jQuery( '<p>', { id: 'rtm_bpm_success' } )
+                                    );
+                                    jQuery( '#rtm_bpm_success' ).css( {'background': '#98ef98', 'padding': '20px' } );
+                                    jQuery( '#rtm_bpm_success' ).append( rtmedia_backbone_strings.rtm_bp_msg_media_success );
+				}
 				activity_id = -1;
 				var hook_respo = rtMediaHook.call( 'rtmedia_js_after_files_uploaded' );
 				if ( typeof rtmedia_gallery_reload_on_upload != 'undefined' && rtmedia_gallery_reload_on_upload == '1' ) { //Reload gallery view when upload completes if enabled( by default enabled)
@@ -825,7 +842,28 @@ jQuery( function( $ ) {
 					rtMediaHook.call( 'rtmedia_js_before_file_upload', [up, file] );
 			} );
 
-			uploaderObj.uploader.bind( 'FileUploaded', function( up, file, res ) {
+                        uploaderObj.uploader.bind( 'FileUploaded', function( up, file, res ) {
+                            var uploaded_response_data = JSON.parse( res.response );
+                            if ( uploaded_response_data.length <= 0 ) {
+                                jQuery( '.rtm-media-msg-upload-button' ).html( '' );
+                                jQuery( '.rtm-media-msg-upload-button' ).removeAttr( 'id' );
+                                jQuery( '.rtm-media-msg-upload-button' ).append( 
+                                    jQuery( '<p>', { id: 'rtm_bpm_success' } )
+                                );
+                                jQuery( '#rtm_bpm_success' ).css(
+                                    { 'background: #db001e':'#db001e', 'padding':'20px' }
+                                );
+                                jQuery( '#rtm_bpm_success' ).append( 
+                                    rtmedia_backbone_strings.rtm_bp_msg_media_failure 
+                                );
+                                } else {
+                                    jQuery( '#rtm_bpm_uploaded_media' ).val(
+                                        jQuery( '#rtm_bpm_uploaded_media' ).val() ?
+                                        jQuery( '#rtm_bpm_uploaded_media' ).val() + ',' + uploaded_response_data[ 'media_id' ] :
+                                        uploaded_response_data[ 'media_id' ]
+                                    );
+                                }
+				
 				if ( /MSIE (\d+\.\d+);/.test( navigator.userAgent ) ) { //Test for MSIE x.x;
 					var ieversion = new Number( RegExp.$1 ); // Capture x.x portion and store as a number
 

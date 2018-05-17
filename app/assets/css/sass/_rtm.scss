@@ -30,6 +30,18 @@
 	}
 }
 
+// Rearranging media preview at uploading time below uploader in BuddyPress compose message
+#rtmedia_uploader_filelist{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+// Preview of attached media below uploader in BuddyPress media message
+.rtmedia_bp_msg_media_upload_render{
+    display: inline;
+    float: left;
+}
+
 .rtmedia-list-item > a {
 	border: 0;
 	display: inline-block;
