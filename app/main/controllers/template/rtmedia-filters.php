@@ -675,7 +675,7 @@ add_filter( 'rtmedia_like_html_you_and_more_like', 'rtmedia_like_html_you_and_mo
  * @param  string $join
  * @return string
  */
-function rtmedia_search_fillter_where_query( $where, $table_name, $join ) {
+function rtmedia_search_fillter_where_query( $where, $table_name ) {
 	if ( function_exists( 'rtmedia_media_search_enabled' ) && rtmedia_media_search_enabled() ) {
 		$search                = ( isset( $_REQUEST['search'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['search'] ) ) : '';
 		$search_by             = ( isset( $_REQUEST['search_by'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['search_by'] ) ) : '';
@@ -757,7 +757,9 @@ function rtmedia_search_fillter_where_query( $where, $table_name, $join ) {
 	return $where;
 }
 
-add_filter( 'rtmedia-model-where-query', 'rtmedia_search_fillter_where_query', 10, 3 );
+add_filter( 'rtmedia-model-where-query', 'rtmedia_search_fillter_where_query', 10, 2 );
+add_filter( 'rtmedia-get-album-where-query', 'rtmedia_search_fillter_where_query', 10, 2 );
+add_filter( 'rtmedia-get-group-album-where-query', 'rtmedia_search_fillter_where_query', 10, 2 );
 
 /**
  * Update join query for media search
@@ -774,9 +776,16 @@ function rtmedia_search_fillter_join_query( $join, $table_name ) {
 		$term_taxonomy_table      = $wpdb->term_taxonomy;
 		$search                   = ( isset( $_REQUEST['search'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['search'] ) ) : '';
 		$search_by                = ( isset( $_REQUEST['search_by'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['search_by'] ) ) : '';
+		$media_type               = ( isset( $_REQUEST['media_type'] ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['media_type'] ) ) : '';
+
+		if ( 'album' === $media_type ) {
+			$media_type = 'rtmedia_album';
+		} else {
+			$media_type = 'attachment';
+		}
 
 		if ( '' !== $search ) {
-				$join .= "INNER JOIN $posts_table as post_table ON ( post_table.ID = $table_name.media_id AND post_table.post_type = 'attachment')";
+			$join .= "INNER JOIN $posts_table as post_table ON ( post_table.ID = $table_name.media_id AND post_table.post_type = '" . $media_type . "')";
 
 			$request_uri = rtm_get_server_var( 'REQUEST_URI', 'FILTER_SANITIZE_URL' );
 			$request_url = explode( '/', $request_uri );
