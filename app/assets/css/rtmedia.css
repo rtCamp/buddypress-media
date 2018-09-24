@@ -1847,10 +1847,12 @@ a.rtmedia-comment-link.rtmedia-comments-link {
 }
 
 li.rtmedia-list-item.media-type-music.masonry-brick {
-  position: relative !important;
   width: auto;
-  left: 0 !important;
-  top: 0 !important;
+  float: none;
+}
+
+li.rtmedia-list-item.media-type-music.masonry-brick {
+  width: 49%;
 }
 
 .rtmedia-album-edit .rtm-checkbox-wrap {
