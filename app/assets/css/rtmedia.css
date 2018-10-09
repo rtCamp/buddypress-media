@@ -2896,6 +2896,10 @@ a.rtmedia-upload-media-link {
   content: '';
 }
 
+div.rtmedia-media {
+  margin-top: 5%;
+}
+
 @media only screen and (min-width: 1025px) {
   .mfp-content .rtm-lightbox-container {
     display: -webkit-box;
