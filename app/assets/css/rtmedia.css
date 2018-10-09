@@ -842,7 +842,7 @@ button::-moz-focus-inner {
   padding: 0;
   width: 90px;
   height: 110px;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   opacity: 0;
   z-index: 10;
   -webkit-transition: all 300ms ease-out;
@@ -2852,7 +2852,7 @@ a.rtmedia-upload-media-link {
 #buddypress .mejs-controls button {
   padding: 4px 8px;
   border: none;
-  background: transparent url("../../../lib/media-element/mejs-controls.png") no-repeat;
+  background: rgba(0, 0, 0, 0) url("../../../lib/media-element/mejs-controls.png") no-repeat;
 }
 #buddypress .mejs-controls .mejs-play > button {
   background-position: 0 0;
@@ -2883,6 +2883,10 @@ a.rtmedia-upload-media-link {
 
 .rtmedia-activity-container .mejs-playpause-button.mejs-play button:before, .rtmedia-activity-container .mejs-playpause-button.mejs-pause button:before, .rtmedia-activity-container .mejs-volume-button.mejs-mute button:before, .rtmedia-activity-container .mejs-fullscreen-button button:before, .rtmedia-media .mejs-playpause-button.mejs-play button:before, .rtmedia-media .mejs-playpause-button.mejs-pause button:before, .rtmedia-media .mejs-volume-button.mejs-mute button:before, .rtmedia-media .mejs-fullscreen-button button:before {
   content: '';
+}
+
+div.rtmedia-media {
+  margin-top: 5%;
 }
 
 @media only screen and (min-width: 1025px) {
