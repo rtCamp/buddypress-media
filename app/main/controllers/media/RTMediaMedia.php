@@ -439,7 +439,8 @@ class RTMediaMedia {
 					}
 				}
 			}
-			if ( ! $core && ! is_admin() ) {
+			$admin_screen = get_current_screen();
+			if ( ! $core && ! ( ! empty( $admin_screen ) && $admin_screen->in_admin() ) ) {
 				wp_delete_attachment( $media[0]->media_id, true );
 			}
 			$status = $this->model->delete( array( 'id' => $id ) );
