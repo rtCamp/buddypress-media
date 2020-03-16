@@ -16,10 +16,13 @@ $rand_id = rand( 0, 1000 );
 			<h2 class="rtm-gallery-title">
 				<?php
 				if ( $title ) {
-					echo esc_html( $title );
+					$title = esc_html( $title );
 				} else {
-					esc_html_e( 'Media Gallery', 'buddypress-media' );
+					$title = esc_html__( 'Media Gallery', 'buddypress-media' );
 				}
+
+				echo apply_filters( 'rtmedia_gallery_shortcode_title', $title );
+
 				?>
 			</h2>
 
