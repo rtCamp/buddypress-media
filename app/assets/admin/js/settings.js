@@ -1021,6 +1021,7 @@ jQuery( document ).ready( function ( $ ) {
 					jQuery( '#debuglog' ).val( '' );
 					/* Show error in alert box. */
 					alert( 'ERRORS: ' + data.error );
+					event.target.value = null;
 				}
 			}
 		});
