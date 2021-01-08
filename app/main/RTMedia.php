@@ -1274,7 +1274,8 @@ class RTMedia {
 				true
 			);
 			// localize for rtmedia js.
-			wp_localize_script( 'rtmedia-main', 'bp_template_pack', $bp_template );
+			wp_localize_script( 'rtmedia-main', 'bp_template_pack', array( 'data' => $bp_template ) );
+
 		}
 
 		$media_delete_confirmation_msg = __( 'Are you sure you want to delete this media?', 'buddypress-media' );
@@ -1308,53 +1309,74 @@ class RTMedia {
 			)
 		);
 
-		wp_localize_script( 'rtmedia-main', 'rtmedia_ajax_url', admin_url( 'admin-ajax.php' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_media_slug', RTMEDIA_MEDIA_SLUG );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_lightbox_enabled', strval( $this->options['general_enableLightbox'] ) );
+		$direct_upload         = ( isset( $this->options['general_direct_upload'] ) ? $this->options['general_direct_upload'] : '0' );
+		$rtmedia_disable_media = '1';
 
-		$direct_upload = ( isset( $this->options['general_direct_upload'] ) ? $this->options['general_direct_upload'] : '0' );
+		$rtmedia_main_data = array(
+			'rtmedia_ajax_url'                         => admin_url( 'admin-ajax.php' ),
+			'rtmedia_media_slug'                       => RTMEDIA_MEDIA_SLUG,
+			'rtmedia_lightbox_enabled'                 => strval( $this->options['general_enableLightbox'] ),
+			'rtmedia_direct_upload_enabled'            => $direct_upload,
+			'rtmedia_gallery_reload_on_upload'         => '1',
+			'rtmedia_disable_media_in_commented_media' => $rtmedia_disable_media,
+			'rtmedia_disable_media_in_commented_media_text' => __( 'Adding media in Comments is not allowed', 'buddypress-media' ),
+		);
 
-		wp_localize_script( 'rtmedia-main', 'rtmedia_direct_upload_enabled', $direct_upload );
-		// gallery reload after media upload, by default true.
-		wp_localize_script( 'rtmedia-main', 'rtmedia_gallery_reload_on_upload', '1' );
+		wp_localize_script( 'rtmedia-main', 'rtmedia_main_data', $rtmedia_main_data );
+
+		$rtmedia_backbone_data = array(
+			'rMedia_loading_media'                  => RTMEDIA_URL . 'app/assets/admin/img/boxspinner.gif',
+			'rtmedia_set_featured_image_msg'        => __( 'Featured media set successfully.', 'buddypress-media' ),
+			'rtmedia_unset_featured_image_msg'      => __( 'Featured media removed successfully.', 'buddypress-media' ),
+			'rtmedia_no_media_found'                => __( 'Oops !! There\'s no media found for the request !!', 'buddypress-media' ),
+			'rtmedia_upload_progress_error_message' => __( 'There are some uploads in progress. Do you want to cancel them?', 'buddypress-media' ),
+			'rtmedia_media_disabled_error_message'  => __( 'Media upload is disabled. Please Enable at least one media type to proceed.', 'buddypress-media' ),
+			'rMedia_loading_file'                   => admin_url( '/images/loading.gif' ),
+		);
+
+		wp_localize_script( 'rtmedia-backbone', 'rtmedia_backbone_data', $rtmedia_backbone_data );
 
 		// javascript messages.
-		wp_localize_script( 'rtmedia-magnific', 'rtmedia_load_more', __( 'Loading media', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_empty_activity_msg', __( 'Please enter some content to post.', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_empty_comment_msg', __( 'Empty comment is not allowed.', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_media_delete_confirmation', __( 'Are you sure you want to delete this media?', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_media_comment_delete_confirmation', __( 'Are you sure you want to delete this comment?', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_album_delete_confirmation', __( 'Are you sure you want to delete this Album?', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_drop_media_msg', __( 'Drop files here', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_album_created_msg', ' ' . __( 'album created successfully.', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_something_wrong_msg', __( 'Something went wrong. Please try again.', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_empty_album_name_msg', __( 'Enter an album name.', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_max_file_msg', __( 'Max file Size Limit : ', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_allowed_file_formats', __( 'Allowed File Formats', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_select_all_visible', __( 'Select All Visible', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_unselect_all_visible', __( 'Unselect All Visible', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_no_media_selected', __( 'Please select some media.', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_selected_media_delete_confirmation', __( 'Are you sure you want to delete the selected media?', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_selected_media_move_confirmation', __( 'Are you sure you want to move the selected media?', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_waiting_msg', __( 'Waiting', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_uploaded_msg', __( 'Uploaded', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_uploading_msg', __( 'Uploading', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_upload_failed_msg', __( 'Failed', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_close', __( 'Close', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_edit', __( 'Edit', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_delete', __( 'Delete', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_edit_media', __( 'Edit Media', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_remove_from_queue', __( 'Remove from queue', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_add_more_files_msg', __( 'Add more files', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_file_extension_error_msg', __( 'File not supported', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_more', __( 'more', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_less', __( 'less', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_read_more', __( 'Read more', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia__show_less', __( 'Show less', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_activity_text_with_attachment', apply_filters( 'rtmedia_required_activity_text_with_attachment', 'disable' ) );
-		wp_localize_script( 'rtmedia-main', 'rtmedia_delete_uploaded_media', __( 'This media is uploaded. Are you sure you want to delete this media?', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-main', 'rtm_wp_version', get_bloginfo( 'version' ) );
-		wp_localize_script( 'rtmedia-backbone', 'rMedia_loading_media', RTMEDIA_URL . 'app/assets/admin/img/boxspinner.gif' );
+		$rtmedia_js_messages = array(
+			'rtmedia_empty_activity_msg'                 => __( 'Please enter some content to post.', 'buddypress-media' ),
+			'rtmedia_empty_comment_msg'                  => __( 'Empty comment is not allowed.', 'buddypress-media' ),
+			'rtmedia_media_delete_confirmation'          => __( 'Are you sure you want to delete this media?', 'buddypress-media' ),
+			'rtmedia_media_comment_delete_confirmation'  => __( 'Are you sure you want to delete this comment?', 'buddypress-media' ),
+			'rtmedia_album_delete_confirmation'          => __( 'Are you sure you want to delete this Album?', 'buddypress-media' ),
+			'rtmedia_drop_media_msg'                     => __( 'Drop files here', 'buddypress-media' ),
+			'rtmedia_album_created_msg'                  => __( 'album created successfully.', 'buddypress-media' ),
+			'rtmedia_something_wrong_msg'                => __( 'Something went wrong. Please try again.', 'buddypress-media' ),
+			'rtmedia_empty_album_name_msg'               => __( 'Enter an album name.', 'buddypress-media' ),
+			'rtmedia_max_file_msg'                       => __( 'Max file Size Limit : ', 'buddypress-media' ),
+			'rtmedia_allowed_file_formats'               => __( 'Allowed File Formats', 'buddypress-media' ),
+			'rtmedia_select_all_visible'                 => __( 'Select All Visible', 'buddypress-media' ),
+			'rtmedia_unselect_all_visible'               => __( 'Unselect All Visible', 'buddypress-media' ),
+			'rtmedia_no_media_selected'                  => __( 'Please select some media.', 'buddypress-media' ),
+			'rtmedia_selected_media_delete_confirmation' => __( 'Are you sure you want to delete the selected media?', 'buddypress-media' ),
+			'rtmedia_selected_media_move_confirmation'   => __( 'Are you sure you want to move the selected media?', 'buddypress-media' ),
+			'rtmedia_waiting_msg'                        => __( 'Waiting', 'buddypress-media' ),
+			'rtmedia_uploaded_msg'                       => __( 'Uploaded', 'buddypress-media' ),
+			'rtmedia_uploading_msg'                      => __( 'Uploading', 'buddypress-media' ),
+			'rtmedia_upload_failed_msg'                  => __( 'Failed', 'buddypress-media' ),
+			'rtmedia_close'                              => __( 'Close', 'buddypress-media' ),
+			'rtmedia_edit'                               => __( 'Edit', 'buddypress-media' ),
+			'rtmedia_delete'                             => __( 'Delete', 'buddypress-media' ),
+			'rtmedia_edit_media'                         => __( 'Edit Media', 'buddypress-media' ),
+			'rtmedia_remove_from_queue'                  => __( 'Remove from queue', 'buddypress-media' ),
+			'rtmedia_add_more_files_msg'                 => __( 'Add more files', 'buddypress-media' ),
+			'rtmedia_file_extension_error_msg'           => __( 'File not supported', 'buddypress-media' ),
+			'rtmedia_more'                               => __( 'more', 'buddypress-media' ),
+			'rtmedia_less'                               => __( 'less', 'buddypress-media' ),
+			'rtmedia_read_more'                          => __( 'Read more', 'buddypress-media' ),
+			'rtmedia__show_less'                         => __( 'Show less', 'buddypress-media' ),
+			'rtmedia_activity_text_with_attachment'      => apply_filters( 'rtmedia_required_activity_text_with_attachment', 'disable' ),
+			'rtmedia_delete_uploaded_media'              => __( 'This media is uploaded. Are you sure you want to delete this media?', 'buddypress-media' ),
+			'rtm_wp_version'                             => get_bloginfo( 'version' ),
+			'rMedia_loading_media'                       => RTMEDIA_URL . 'app/assets/admin/img/boxspinner.gif',
+		);
+
+		wp_localize_script( 'rtmedia-main', 'rtmedia_js_msgs', $rtmedia_js_messages );
+
 		$rtmedia_media_thumbs = array();
 		foreach ( $this->allowed_types as $key_type => $value_type ) {
 			$rtmedia_media_thumbs[ $key_type ] = $value_type['thumbnail'];
@@ -1368,8 +1390,7 @@ class RTMedia {
 		$rtmedia_media_thumbs = apply_filters( 'rtmedia_add_docs_thumbs', $rtmedia_media_thumbs );
 
 		wp_localize_script( 'rtmedia-backbone', 'rtmedia_media_thumbs', $rtmedia_media_thumbs );
-		wp_localize_script( 'rtmedia-backbone', 'rtmedia_set_featured_image_msg', __( 'Featured media set successfully.', 'buddypress-media' ) );
-		wp_localize_script( 'rtmedia-backbone', 'rtmedia_unset_featured_image_msg', __( 'Featured media removed successfully.', 'buddypress-media' ) );
+
 		wp_localize_script(
 			'rtmedia-backbone',
 			'rtmedia_edit_media_info_upload',
@@ -1378,7 +1399,6 @@ class RTMedia {
 				'description' => esc_html__( 'Description:', 'buddypress-media' ),
 			)
 		);
-		wp_localize_script( 'rtmedia-backbone', 'rtmedia_no_media_found', __( 'Oops !! There\'s no media found for the request !!', 'buddypress-media' ) );
 
 		// Localizing strings for rtMedia.backbone.js.
 		$rtmedia_backbone_strings = array(
@@ -1386,7 +1406,7 @@ class RTMedia {
 		);
 
 		// Localise fot rtmedia-backcone js.
-		wp_localize_script( 'rtmedia-backbone', 'bp_template_pack', $bp_template );
+		wp_localize_script( 'rtmedia-backbone', 'bp_template_pack', array( 'data' => $bp_template ) );
 
 		wp_localize_script( 'rtmedia-backbone', 'rtmedia_backbone_strings', $rtmedia_backbone_strings );
 
@@ -1406,34 +1426,30 @@ class RTMedia {
 			if ( wp_script_is( 'jquery-masonry', 'registered' ) ) {
 				wp_enqueue_style( 'jquery-masonry' );
 				wp_enqueue_script( 'jquery-masonry' );
-				wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout', 'true' );
+				wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout', array( 'data' => 'true' ) );
 				if ( isset( $rtmedia->options ) && isset( $rtmedia->options['general_masonry_layout_activity'] ) && 1 === intval( $rtmedia->options['general_masonry_layout_activity'] ) ) {
-					wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout_activity', 'true' );
+					wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout_activity', array( 'data' => 'true' ) );
 				} else {
-					wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout_activity', 'false' );
+					wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout_activity', array( 'data' => 'false' ) );
 				}
 			} else {
-				wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout', 'false' );
+				wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout', array( 'data' => 'false' ) );
 			}
 		} else {
-			wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout', 'false' );
+			wp_localize_script( 'rtmedia-main', 'rtmedia_masonry_layout', array( 'data' => 'false' ) );
 		}
 
 		if ( isset( $rtmedia->options['general_display_media'] ) ) {
-			wp_localize_script( 'rtmedia-backbone', 'rtmedia_load_more_or_pagination', (string) $rtmedia->options['general_display_media'] );
+			wp_localize_script( 'rtmedia-backbone', 'rtmedia_load_more_or_pagination', array( 'data' => (string) $rtmedia->options['general_display_media'] ) );
 		} else {
-			wp_localize_script( 'rtmedia-backbone', 'rtmedia_load_more_or_pagination', 'load_more' );
+			wp_localize_script( 'rtmedia-backbone', 'rtmedia_load_more_or_pagination', array( 'data' => 'load_more' ) );
 		}
 
 		if ( isset( $rtmedia->options['buddypress_enableOnActivity'] ) ) {
-			wp_localize_script( 'rtmedia-backbone', 'rtmedia_bp_enable_activity', (string) $rtmedia->options['buddypress_enableOnActivity'] );
+			wp_localize_script( 'rtmedia-backbone', 'rtmedia_bp_enable_activity', array( 'data' => (string) $rtmedia->options['buddypress_enableOnActivity'] ) );
 		} else {
-			wp_localize_script( 'rtmedia-backbone', 'rtmedia_bp_enable_activity', '0' );
+			wp_localize_script( 'rtmedia-backbone', 'rtmedia_bp_enable_activity', array( 'data' => '0' ) );
 		}
-
-		wp_localize_script( 'rtmedia-backbone', 'rtmedia_upload_progress_error_message', __( 'There are some uploads in progress. Do you want to cancel them?', 'buddypress-media' ) );
-		// Added to display error message when all media types upload are disabled.
-		wp_localize_script( 'rtmedia-backbone', 'rtmedia_media_disabled_error_message', __( 'Media upload is disabled. Please Enable at least one media type to proceed.', 'buddypress-media' ) );
 
 		// localise media size config.
 		$media_size_config = array(
@@ -1537,23 +1553,18 @@ class RTMedia {
 			$rtmedia_extns[ $allowed_types_key ] = $allowed_types_value['extn'];
 		}
 
-		$rtmedia_disable_media = '1';
 		// if the  rtmedia option does have value pick from there.
 		if ( isset( $rtmedia->options['rtmedia_disable_media_in_commented_media'] ) ) {
 			$rtmedia_disable_media = $rtmedia->options['rtmedia_disable_media_in_commented_media'];
 		}
-		wp_localize_script( 'rtmedia-main', 'rtmedia_disable_media_in_commented_media', $rtmedia_disable_media );
-
-		wp_localize_script( 'rtmedia-main', 'rtmedia_disable_media_in_commented_media_text', __( 'Adding media in Comments is not allowed', 'buddypress-media' ) );
 
 		wp_localize_script( 'rtmedia-backbone', 'rtmedia_exteansions', $rtmedia_extns );
 		wp_localize_script( 'rtmedia-backbone', 'rtMedia_update_plupload_comment', $params );
-		wp_localize_script( 'rtmedia-backbone', 'rMedia_loading_file', admin_url( '/images/loading.gif' ) );
 
 		// Check if BuddyPress plugin is not activated.
 		$is_buddypress_activate = rtm_is_buddypress_activate();
 		if ( empty( $is_buddypress_activate ) ) {
-			wp_localize_script( 'rtmedia-main', 'ajaxurl', admin_url( 'admin-ajax.php', is_ssl() ? 'admin' : 'http' ) );
+			wp_localize_script( 'rtmedia-main', 'ajaxurl', array( 'data' => admin_url( 'admin-ajax.php', is_ssl() ? 'admin' : 'http' ) ) );
 		}
 
 		$options = $rtmedia->options;

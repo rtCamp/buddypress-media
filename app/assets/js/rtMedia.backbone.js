@@ -7,6 +7,16 @@ var objUploadView;
 var rtmedia_load_template_flag = true;
 var rtmedia_add_media_button_post_update = false;
 
+/* Makes new variables added in rtmedia_admin_strings accessable */
+for (var key in rtmedia_backbone_data) {
+	window[key] = rtmedia_backbone_data[key];
+}
+
+/* non groupable data vars here */
+bp_template_pack = bp_template_pack.data || bp_template_pack;
+rtmedia_load_more_or_pagination = rtmedia_load_more_or_pagination.data || rtmedia_load_more_or_pagination;
+rtmedia_bp_enable_activity = rtmedia_bp_enable_activity.data || rtmedia_bp_enable_activity;
+template_url = template_url.data || template_url;
 
 jQuery( function( $ ) {
 	/**
